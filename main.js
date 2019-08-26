@@ -24,6 +24,8 @@ function run() {
     console.log('HELLO WORLD\n')
 }
 
+row.price = ;
+
 function bamazon() {
     connection.query('select * from products',function (err,res) {
      console.log(err,res)
