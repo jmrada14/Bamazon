@@ -55,3 +55,20 @@ function viewProducts () {
         connection.end()
     })
 }
+function lowInventory() {
+    connection.query('SELECT * FROM products WHERE stock_quantity < 5', function (error, res) {
+        if (error) throw error;
+        console.log(res);
+        res.forEach(row => {
+            console.log(`Id: ${row.id} Name: ${row.product} Price: ${row.price} Quantity: ${row.stock_quantity}\n`)
+        });
+        connection.end()
+    })
+}
+function addInventory(productId, prodQuantity) {
+    connection.query('SELECT * FROM products', function (err, res) {
+        console.log(err,res)
+        if (err) throw err;
+        res.forEach(row => {
+            console.log(`Id: ${row.id} Name: ${row.product} Price: ${row.price} Quantity: ${row.stock_quantity}\n`)
+        });
