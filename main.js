@@ -48,7 +48,7 @@ function questions() {
             message: "how many of this item would you like to purchase",
             type: "input",
             name: "productQuantity"
-        };
+        }
     ]).then(function (ans) {
         let productId = ans.productId;
         let productQuantity = ans.productQuantity;
@@ -65,6 +65,21 @@ function withdrawProduct(productId, productQuantity){
             product = res[j];
         };
 
+
+    console.log(productId, "product was found")
+    if(productId.stock_quantity >= prodQty){
+        saleComplete(product, productIdId, productQuantity)
+        connection.end()
     }
-    );
-};
+    else(
+        console.log("order canceled")
+        connection.end()
+)
+
+})
+}
+function saleComplete(product, productId, productQuantity) {
+    //needs to be done
+}
+
+
