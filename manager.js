@@ -72,3 +72,43 @@ function addInventory(productId, prodQuantity) {
         res.forEach(row => {
             console.log(`Id: ${row.id} Name: ${row.product} Price: ${row.price} Quantity: ${row.stock_quantity}\n`)
         });
+        inquirer.prompt([
+            {
+                message: "Type the Id of the product you would like to add to the inventory",
+                type: "input",
+                name: "id"
+            },
+            {
+                message: "what is the quantity you are adding to this item's stock.",
+                type: "input",
+                name: "productQuantity"
+            }
+        ]).then(function (ans) {
+
+            connection.query('SELECT * FROM products', function (err, res) {
+                if (err) throw err;
+                var prod;
+                for (var i = 0; i < res.length; i++) {
+                    if (res[i].id === ans.id) {
+                        prod = res[i]
+                    }
+                }
+                console.log(prod, "product found")
+                if (prod !== undefined) {
+                    addInventory(prod, ans.id, parseInt(ans.productQuantity))
+                    connection.end()
+                } else {
+                    console.log("product doesn't exist")
+                    connection.end()
+                }
+            })
+        })
+    })
+};
+
+function addInventory(prodObj, id, productQuantity) {
+    var newQuantity = prodObj.stock_quantity + productQuantity
+    var query = "update products Set stock_quantity = ? where ?";
+    connection.query(query, [newQuantity, { item_id: id }], function (err, res) {
+    })
+}
