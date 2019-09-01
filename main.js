@@ -79,7 +79,14 @@ function withdrawProduct(productId, productQuantity){
 })
 }
 function saleComplete(product, productId, productQuantity) {
-    //needs to be done
+    let newQuantity = productObj.stock_quantity - productQuantity;
+    let productSales = productObj.price * productQuantityty;
+    let queryOne = "UPDATE products SET stock_quantity = ? where ?";
+    let queryTwo = "UPDATE products SET product_sales = ? where ?";
+    connection.query(queryOne,[newQuantity, {item_id: id}], function (err, res) {
+    })
+    connection.query(queryTwo, [productSales, { item_id: id }], function (err, res) {
+    })
 }
 
 

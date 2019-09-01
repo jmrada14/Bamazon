@@ -106,9 +106,45 @@ function addInventory(productId, prodQuantity) {
     })
 };
 
-function addInventory(prodObj, id, productQuantity) {
-    var newQuantity = prodObj.stock_quantity + productQuantity
+function addInventory(product, id, productQuantity) {
+    var newQuantity = product.stock_quantity + productQuantity
     var query = "update products Set stock_quantity = ? where ?";
     connection.query(query, [newQuantity, { item_id: id }], function (err, res) {
+    })
+}
+
+function addProduct(params) {
+    inquirer.prompt([
+        {
+            message: "type product name?",
+            type: "input",
+            name: "product"
+        },
+        {
+            message: "What department does this product belong to?",
+            type: "input",
+            name: "department"
+        },
+        {
+            message: "What is the price of this product?",
+            type: "input",
+            name: "price"
+        },
+        {
+            message: "how much of this item do you want to add to stock?",
+            type: "input",
+            name: "productQuantity"
+        }
+    ]).then(function (ans) {
+        let query = "Insert Into products (product, department, price, stock_quantity) VAlUES (?, ?, ?, ?)";
+        console.log(ans)
+        if (ans.product !== '' && ans.department !== '' && ans.price !== '' && ans.productQuantity !== ''){
+            connection.query(query, [ans.product, ans.department, ans.price, ans.productQuantity], function (err, res) {
+            })
+            connection.end()
+        }else{
+            console.log("ERROR: Product info incomplete.")
+            connection.end()
+        }
     })
 }
